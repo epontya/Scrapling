@@ -6,6 +6,7 @@ robust parsing capabilities.
 
 Personal fork notes:
 - Forked for learning/personal use
+- Added StealthyFetcher to top-level exports for easier access
 - See https://github.com/D4Vinci/Scrapling for the upstream project
 """
 
@@ -24,6 +25,13 @@ try:
 except ImportError:
     _playwright_available = False
 
+# Also expose StealthyFetcher at the top level -- I use this one most often
+try:
+    from scrapling.core.fetchers import StealthyFetcher
+    _stealthy_available = True
+except ImportError:
+    _stealthy_available = False
+
 __all__ = [
     "Fetcher",
     "AsyncFetcher",
@@ -33,3 +41,6 @@ __all__ = [
 
 if _playwright_available:
     __all__ += ["PlaywrightFetcher", "AsyncPlaywrightFetcher"]
+
+if _stealthy_available:
+    __all__ += ["StealthyFetcher"]
