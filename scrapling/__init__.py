@@ -8,6 +8,7 @@ Personal fork notes:
 - Forked for learning/personal use
 - Added StealthyFetcher to top-level exports for easier access
 - Added AsyncStealthyFetcher to top-level exports as well
+- Grouped availability flags into a single dict for cleaner checks
 - See https://github.com/D4Vinci/Scrapling for the upstream project
 """
 
@@ -19,19 +20,22 @@ __version__ = "0.2.9"
 __author__ = "D4Vinci"
 __license__ = "MIT"
 
+# Track which optional fetcher backends are available
+_available_backends = {}
+
 # Expose PlaywrightFetcher and AsyncPlaywrightFetcher at the top level for convenience
 try:
     from scrapling.core.fetchers import PlaywrightFetcher, AsyncPlaywrightFetcher
-    _playwright_available = True
+    _available_backends["playwright"] = True
 except ImportError:
-    _playwright_available = False
+    _available_backends["playwright"] = False
 
 # Also expose StealthyFetcher and AsyncStealthyFetcher at the top level -- I use these most often
 try:
     from scrapling.core.fetchers import StealthyFetcher, AsyncStealthyFetcher
-    _stealthy_available = True
+    _available_backends["stealthy"] = True
 except ImportError:
-    _stealthy_available = False
+    _available_backends["stealthy"] = False
 
 __all__ = [
     "Fetcher",
@@ -40,8 +44,8 @@ __all__ = [
     "SelectorList",
 ]
 
-if _playwright_available:
+if _available_backends.get("playwright"):
     __all__ += ["PlaywrightFetcher", "AsyncPlaywrightFetcher"]
 
-if _stealthy_available:
+if _available_backends.get("stealthy"):
     __all__ += ["StealthyFetcher", "AsyncStealthyFetcher"]
