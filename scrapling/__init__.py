@@ -10,6 +10,7 @@ Personal fork notes:
 - Added AsyncStealthyFetcher to top-level exports as well
 - Grouped availability flags into a single dict for cleaner checks
 - Added helper function `get_available_backends()` for easy inspection
+- Added `__version_info__` tuple for easier version comparisons
 - See https://github.com/D4Vinci/Scrapling for the upstream project
 """
 
@@ -18,6 +19,7 @@ from scrapling.core.page import Adaptor
 from scrapling.core.custom_types import SelectorList
 
 __version__ = "0.2.9"
+__version_info__ = tuple(int(x) for x in __version__.split("."))  # e.g. (0, 2, 9)
 __author__ = "D4Vinci"
 __license__ = "MIT"
 
@@ -60,6 +62,7 @@ __all__ = [
     "Adaptor",
     "SelectorList",
     "get_available_backends",
+    "__version_info__",
 ]
 
 if _available_backends.get("playwright"):
