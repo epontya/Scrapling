@@ -11,6 +11,8 @@ Personal fork notes:
 - Grouped availability flags into a single dict for cleaner checks
 - Added helper function `get_available_backends()` for easy inspection
 - Added `__version_info__` tuple for easier version comparisons
+- Added `is_backend_available()` helper as a more readable alternative to
+  checking `get_available_backends()[name]` directly
 - See https://github.com/D4Vinci/Scrapling for the upstream project
 """
 
@@ -56,12 +58,27 @@ def get_available_backends() -> dict:
     return dict(_available_backends)
 
 
+def is_backend_available(name: str) -> bool:
+    """Return True if the named backend is available, False otherwise.
+
+    A more readable alternative to ``get_available_backends().get(name, False)``.
+
+    Example::
+
+        import scrapling
+        if scrapling.is_backend_available("stealthy"):
+            from scrapling import StealthyFetcher
+    """
+    return _available_backends.get(name, False)
+
+
 __all__ = [
     "Fetcher",
     "AsyncFetcher",
     "Adaptor",
     "SelectorList",
     "get_available_backends",
+    "is_backend_available",
     "__version_info__",
 ]
 
