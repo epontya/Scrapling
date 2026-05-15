@@ -72,6 +72,21 @@ def is_backend_available(name: str) -> bool:
     return _available_backends.get(name, False)
 
 
+def check_imports() -> None:
+    """Print a summary of available backends. Handy for quick debugging.
+
+    Example::
+
+        import scrapling
+        scrapling.check_imports()
+        # playwright : available
+        # stealthy   : NOT available
+    """
+    for name, available in _available_backends.items():
+        status = "available" if available else "NOT available"
+        print(f"  {name:<12}: {status}")
+
+
 __all__ = [
     "Fetcher",
     "AsyncFetcher",
@@ -79,6 +94,7 @@ __all__ = [
     "SelectorList",
     "get_available_backends",
     "is_backend_available",
+    "check_imports",
     "__version_info__",
 ]
 
