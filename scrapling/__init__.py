@@ -9,6 +9,7 @@ Personal fork notes:
 - Added StealthyFetcher to top-level exports for easier access
 - Added AsyncStealthyFetcher to top-level exports as well
 - Grouped availability flags into a single dict for cleaner checks
+- Added helper function `get_available_backends()` for easy inspection
 - See https://github.com/D4Vinci/Scrapling for the upstream project
 """
 
@@ -37,11 +38,28 @@ try:
 except ImportError:
     _available_backends["stealthy"] = False
 
+
+def get_available_backends() -> dict:
+    """Return a copy of the available backends dict.
+
+    Useful for quickly checking which optional dependencies are installed
+    without having to catch ImportErrors yourself.
+
+    Example::
+
+        import scrapling
+        print(scrapling.get_available_backends())
+        # {'playwright': True, 'stealthy': False}
+    """
+    return dict(_available_backends)
+
+
 __all__ = [
     "Fetcher",
     "AsyncFetcher",
     "Adaptor",
     "SelectorList",
+    "get_available_backends",
 ]
 
 if _available_backends.get("playwright"):
